@@ -24,7 +24,7 @@ spring:
           trust: "*"
         auth: true
         starttls:
-          enable.true
+          enable: true
         connectionTimeout: 5000
         timeout: 3000
         writetimeout: 5000
