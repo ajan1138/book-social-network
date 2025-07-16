@@ -73,7 +73,7 @@ public class AuthenticationService {
 
     private String generateAndSaveActivationToken(User user) {
         // Generating a token
-        String generatedToken = generateActivationCode(5);
+        String generatedToken = generateActivationCode(6);
 
         var token = Token.builder()
                 .token(generatedToken)
