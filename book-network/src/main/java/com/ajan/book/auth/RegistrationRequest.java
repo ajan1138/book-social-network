@@ -13,18 +13,18 @@ import lombok.Setter;
 @Builder
 public class RegistrationRequest {
 
-    @NotEmpty(message = "First name cannot be null")
-    @NotBlank(message = "First name cannot be blank")
+    @NotEmpty(message = "Firstname is not entered correctly")
+    @NotBlank(message = "Firstname is not entered correctly")
     private String firstName;
-    @NotEmpty(message = "Last name cannot be null")
-    @NotBlank(message = "Last name cannot be blank")
+    @NotEmpty(message = "Lastname is not entered correctly")
+    @NotBlank(message = "Lastname is not entered correctly")
     private String lastName;
-    @NotEmpty(message = "Email name cannot be null")
-    @NotBlank(message = "Email name cannot be blank")
+    @NotEmpty(message = "Email is not entered correctly")
+    @NotBlank(message = "Email is not entered correctly")
     @Email(message = "Email is not well formatted")
     private String email;
-    @NotEmpty(message = "First name cannot be null")
-    @NotBlank(message = "First name cannot be blank")
+    @NotEmpty(message = "Password is not entered correctly")
+    @NotBlank(message = "Password is not entered correctly")
     @Size(min = 8, message = "Password must contain at least 8 chars!")
     private String password;
 }

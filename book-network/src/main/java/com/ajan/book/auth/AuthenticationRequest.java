@@ -14,12 +14,12 @@ import lombok.Setter;
 public class AuthenticationRequest {
 
     @NotEmpty(message = "Email name cannot be null")
-    @NotBlank(message = "Email name cannot be blank")
+    @NotBlank(message = "Email name cannot be null")
     @Email(message = "Email is not well formatted")
     private String email;
 
     @NotEmpty(message = "First name cannot be null")
-    @NotBlank(message = "First name cannot be blank")
+    @NotBlank(message = "First name cannot be null")
     @Size(min = 8, message = "Password must contain at least 8 chars!")
     private String password;
 
