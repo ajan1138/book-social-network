@@ -1,5 +1,7 @@
 package com.ajan.book.user;
 
+import com.ajan.book.book.Book;
+import com.ajan.book.history.BookTransactionHistory;
 import com.ajan.book.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -49,6 +51,12 @@ public class User implements UserDetails , Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> transactions;
 
     @Override
     public String getName() {
