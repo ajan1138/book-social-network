@@ -1,5 +1,6 @@
 package com.ajan.book.book;
 
+import com.ajan.book.history.BookTransactionHistory;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,19 @@ public class BookMapper {
                 .isShareable(book.isShareable())
                 .owner(book.getOwner().getFullName())
                 // cover
+                .build();
+    }
+
+    public BorrowedBookResponse toBorrowedBookResponse(@NotNull BookTransactionHistory bookTransactionHistory) {
+        Book book = bookTransactionHistory.getBook();
+        return BorrowedBookResponse.builder()
+                .id(book.getId())
+                .title(book.getTitle())
+                .authorName(book.getAuthorName())
+                .isbn(book.getIsbn())
+                .rate(book.getRate())
+                .returned(bookTransactionHistory.isReturned())
+                .returnApproved(bookTransactionHistory.isReturnApproved())
                 .build();
     }
 }

@@ -1,5 +1,7 @@
 package com.ajan.book.book;
 
+import com.ajan.book.history.BookTransactionHistory;
+import com.ajan.book.history.BookTransactionsHistoryRepository;
 import com.ajan.book.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import static com.ajan.book.book.BookSpecification.withOwnerId;
 public class BookService {
 
     private final BookMapper bookMapper;
+    private final BookTransactionsHistoryRepository bookTransactionsHistoryRepository;
     private final BookRepository bookRepository;
 
     public Integer save(@Valid BookRequest request, Authentication connectedUser) {
@@ -69,6 +72,26 @@ public class BookService {
                 books.getTotalPages(),
                 books.isFirst(),
                 books.isLast()
+        );
+    }
+
+    public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<BookTransactionHistory> allBorrowedBooks =
+                bookTransactionsHistoryRepository.findAllBorrowedBooks(pageable, user.getId());
+        List<BorrowedBookResponse> bookResponse = allBorrowedBooks.stream()
+                .map(bookMapper::toBorrowedBookResponse)
+                .toList();
+
+        return new PageResponse<>(
+                bookResponse,
+                allBorrowedBooks.getNumber(),
+                allBorrowedBooks.getSize(),
+                (int) allBorrowedBooks.getTotalElements(),
+                allBorrowedBooks.getTotalPages(),
+                allBorrowedBooks.isFirst(),
+                allBorrowedBooks.isLast()
         );
     }
 }
