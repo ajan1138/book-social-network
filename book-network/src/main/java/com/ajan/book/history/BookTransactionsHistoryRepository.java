@@ -13,4 +13,11 @@ public interface BookTransactionsHistoryRepository
             WHERE history.user.id == :userId
             """)
     Page<BookTransactionHistory> findAllBorrowedBooks(PageRequest pageable,Integer userId);
+
+    @Query("""
+            SELECT history
+            FROM BookTransactionHistory history
+            WHERE history.book.owner.id == :userId
+            """)
+    Page<BookTransactionHistory> findAllReturnedBooks(PageRequest pageable, Integer id);
 }
