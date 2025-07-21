@@ -12,14 +12,14 @@ public interface BookTransactionsHistoryRepository
     @Query("""
             SELECT history
             FROM BookTransactionHistory history
-            WHERE history.user.id == :userId
+            WHERE history.user.id = :userId
             """)
     Page<BookTransactionHistory> findAllBorrowedBooks(PageRequest pageable,Integer userId);
 
     @Query("""
             SELECT history
             FROM BookTransactionHistory history
-            WHERE history.book.owner.id == :userId
+            WHERE history.book.owner.id = :userId
             """)
     Page<BookTransactionHistory> findAllReturnedBooks(PageRequest pageable, Integer id);
 
