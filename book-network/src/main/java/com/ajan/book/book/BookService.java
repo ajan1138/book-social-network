@@ -1,6 +1,7 @@
 package com.ajan.book.book;
 
 import com.ajan.book.exception.OperationNotPermittedException;
+import com.ajan.book.file.FileStorageService;
 import com.ajan.book.history.BookTransactionHistory;
 import com.ajan.book.history.BookTransactionsHistoryRepository;
 import com.ajan.book.user.User;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +27,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final BookTransactionsHistoryRepository bookTransactionsHistoryRepository;
     private final BookRepository bookRepository;
+    private final FileStorageService fileStorageService;
 
     public Integer save(@Valid BookRequest request, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
@@ -217,5 +220,15 @@ public class BookService {
 
         bookTransactionHistory.setReturnApproved(true);
         return bookTransactionsHistoryRepository.save(bookTransactionHistory).getId();
+    }
+
+    public void uploadBookCoverPicture(MultipartFile file, Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() ->
+                new EntityNotFoundException("No book found!"));
+        User user = ((User) connectedUser.getPrincipal());
+
+        String bookCover = fileStorageService.saveFile(file, user.getId());
+        book.setBookCover(bookCover);
+        bookRepository.save(book);
     }
 }

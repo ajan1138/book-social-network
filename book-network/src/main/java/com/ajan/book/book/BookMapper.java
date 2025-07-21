@@ -1,5 +1,6 @@
 package com.ajan.book.book;
 
+import com.ajan.book.book.file.FileUtils;
 import com.ajan.book.history.BookTransactionHistory;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class BookMapper {
                 .isArchived(book.isArchived())
                 .isShareable(book.isShareable())
                 .owner(book.getOwner().getFullName())
-                // cover
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
