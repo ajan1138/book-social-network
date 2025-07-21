@@ -1,6 +1,6 @@
 package com.ajan.book.book;
 
-import com.ajan.book.book.file.FileUtils;
+import com.ajan.book.file.FileUtils;
 import com.ajan.book.history.BookTransactionHistory;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
